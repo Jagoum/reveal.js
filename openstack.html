@@ -58,6 +58,17 @@
 </head>
 
 <body>
+	<div style="position: fixed; top: 10px; right: 20px; z-index: 1000;">
+		<label for="theme-switcher"
+			style="color: #fff; font-family: 'Fira Code', monospace; font-size: 0.95em;">Theme:</label>
+		<select id="theme-switcher" style="padding: 2px 8px; border-radius: 4px;">
+			<option value="sky">Sky</option>
+			<option value="black">Black</option>
+			<option value="white">White</option>
+			<option value="league">League</option>
+			<option value="moon">Moon</option>
+		</select>
+	</div>
 	<div class="reveal">
 		<div class="slides">
 			<!-- Title Slide -->
@@ -313,6 +324,15 @@ openstack server add volume db-server db-volume</code></pre>
 
 			// PDF export options
 			pdfSeparateFragments: false
+		});
+
+		// Theme switcher logic
+		document.getElementById('theme-switcher').addEventListener('change', function(e) {
+			var theme = e.target.value;
+			var themeLink = document.querySelector('link[rel="stylesheet"][href*="theme/"]');
+			if (themeLink) {
+				themeLink.href = `dist/theme/${theme}.css`;
+			}
 		});
 	</script>
 </body>
