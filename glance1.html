@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Glance - OpenStack Image Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Glance</h2>
+                <p>Image Service Overview</p>
+                <aside class="notes">
+                    Welcome everyone. Today we'll explore OpenStack Glance — the Image service responsible for
+                    discovering, registering, and retrieving virtual machine images.
+                </aside>
+            </section>
+
+            <section>
+                <h2 class="fragment fade-in">Why Glance?</h2>
+                <ul>
+                    <li class="fragment fade-up">Before Glance, there was no unified way to manage VM images in the
+                        cloud.</li>
+                    <li class="fragment fade-up">Operators had to manage images manually across compute nodes.</li>
+                    <li class="fragment fade-up">Glance centralizes and standardizes image management.</li>
+                </ul>
+                <aside class="notes">
+                    Glance solves the critical issue of inconsistent and manual image management, especially in large
+                    deployments.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Glance is the OpenStack image service that allows users to discover, register, and retrieve virtual
+                    machine images.</p>
+                <aside class="notes">
+                    Think of Glance as a catalog for virtual machine images. It allows both users and other OpenStack
+                    services to retrieve and manage images efficiently.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <img class="fragment fade-in" src="./Screenshot from 2025-05-27 11-38-58.png" alt="Glance Architecture"
+                    style="width: 70%;">
+                <ul>
+                    <li class="fragment fade-right"><strong>API Server:</strong> Accepts image operations</li>
+                    <li class="fragment fade-right"><strong>Registry:</strong> Metadata management (deprecated in newer
+                        versions)</li>
+                    <li class="fragment fade-right"><strong>Storage Backend:</strong> File system, Object storage
+                        (Swift), etc.</li>
+                </ul>
+                <aside class="notes">
+                    Glance's architecture is modular. The API server handles requests, and images are stored in a
+                    pluggable backend like file system or Swift.
+                </aside>
+            </section>
+
+            <section>
+                <h2 class="fragment fade-in">How Glance Works</h2>
+                <ol>
+                    <li class="fragment fade-left">User uploads an image via the API.</li>
+                    <li class="fragment fade-left">Glance stores it in the backend.</li>
+                    <li class="fragment fade-left">Other services (like Nova) retrieve images for booting instances.
+                    </li>
+                </ol>
+                <aside class="notes">
+                    Glance acts as an intermediary between image creation and image consumption.
+                </aside>
+            </section>
+
+            <section>
+                <h2 class="fragment fade-in">Integration</h2>
+                <ul>
+                    <li class="fragment fade-up"><strong>Nova:</strong> Uses Glance to fetch images to boot instances.
+                    </li>
+                    <li class="fragment fade-up"><strong>Horizon:</strong> GUI for managing images via Glance.</li>
+                </ul>
+                <aside class="notes">
+                    Glance plays a crucial role in OpenStack orchestration by being the central image provider.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install glance</code></pre>
+                <p>Edit <code>/etc/glance/glance-api.conf</code> and <code>/etc/glance/glance-registry.conf</code></p>
+                <aside class="notes">
+                    After installing Glance, configurations must be adapted to your environment, including database and
+                    Keystone integration.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Install Glance
+  hosts: glance
+  tasks:
+    - name: Install packages
+      apt:
+        name: glance
+        state: present</code></pre>
+                <aside class="notes">
+                    Ansible makes it easy to automate Glance installation across multiple servers with consistent
+                    configuration.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Glance</h2>
+                <pre><code>openstack image list
+openstack image create --disk-format qcow2 --file image.qcow2 my-image</code></pre>
+                <aside class="notes">
+                    These are basic commands you’ll use to list and upload images to Glance.
+                </aside>
+            </section>
+
+            <section>
+                <h2 class="fragment fade-in">Practice Session</h2>
+                <ul>
+                    <li class="fragment fade-right">Upload an image</li>
+                    <li class="fragment fade-right">List images</li>
+                    <li class="fragment fade-right">Launch an instance using the image via Nova</li>
+                </ul>
+                <aside class="notes">
+                    In this hands-on, we’ll get experience with real image management operations.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Glance</h2>
+                <ul>
+                    <li>Central image repository</li>
+                    <li>Enables reuse of images across environments</li>
+                    <li>Pluggable backend architecture</li>
+                </ul>
+                <aside class="notes">
+                    Glance’s importance cannot be overstated—it’s foundational to any OpenStack deployment.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/glance/latest/">Glance Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    These are great resources for deeper dives into Glance.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/plugin/notes/notes.min.js"></script>
+    <script>
+        Reveal.initialize({
+            slideNumber: 'c/t', // Shows current slide number / total slides
+            hash: true, // Enable slide navigation via URL hash
+            plugins: [RevealNotes]
+        });
+    </script>
+</body>
+
+</html>

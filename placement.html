@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Placement - OpenStack Resource Scheduler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Placement</h2>
+                <p>Resource Provider API Service</p>
+                <aside class="notes">
+                    Hello everyone! Let’s explore Placement — a service used to track resource inventories and usages
+                    for scheduling VMs and other resources.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Why Placement?</h2>
+                <ul>
+                    <li>Before Placement, scheduling decisions were less efficient.</li>
+                    <li>Placement allows granular tracking of resource availability.</li>
+                </ul>
+                <aside class="notes">
+                    It helps avoid over-committing resources and makes scheduling more intelligent.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Placement is an OpenStack service that provides resource provider inventory and usage tracking APIs
+                    for the scheduler.</p>
+                <aside class="notes">
+                    It doesn’t manage resources directly, but tells Nova and other services what’s available.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <ul>
+                    <li><strong>Placement API:</strong> Accepts and responds to resource queries</li>
+                    <li><strong>Resource Provider Tree:</strong> Models nested resource hierarchies</li>
+                    <li><strong>Inventory and Allocation Records:</strong> Track total and used resources</li>
+                </ul>
+                <aside class="notes">
+                    Placement tracks CPU, memory, and other resource usage for optimized placement decisions.
+                </aside>
+            </section>
+
+            <section>
+                <h2>How Placement Works</h2>
+                <ol>
+                    <li>Compute node reports inventory to Placement</li>
+                    <li>Nova scheduler queries Placement before scheduling</li>
+                    <li>Placement returns suitable hosts based on availability</li>
+                </ol>
+                <aside class="notes">
+                    This enables data-driven scheduling rather than static allocation.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Integration</h2>
+                <ul>
+                    <li><strong>Nova:</strong> Uses Placement to determine host for new instances</li>
+                    <li><strong>Cyborg:</strong> Can use Placement for accelerators</li>
+                </ul>
+                <aside class="notes">
+                    Placement is integrated with services that need to track resource usage and make scheduling
+                    decisions.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install placement-api</code></pre>
+                <p>Configure <code>/etc/placement/placement.conf</code> and map to Apache or uWSGI</p>
+                <aside class="notes">
+                    After installation, Placement must be registered in Keystone and its endpoints created.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Install Placement
+  hosts: placement
+  tasks:
+    - name: Install placement-api
+      apt:
+        name: placement-api
+        state: present</code></pre>
+                <aside class="notes">
+                    Use Ansible to deploy Placement in a consistent and automated fashion.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Placement</h2>
+                <pre><code>openstack resource provider list
+openstack resource class list</code></pre>
+                <aside class="notes">
+                    These commands help inspect resource providers and availability for scheduling.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Practice Session</h2>
+                <ul>
+                    <li>List resource providers</li>
+                    <li>Query inventories and usages</li>
+                    <li>Observe scheduling impacts</li>
+                </ul>
+                <aside class="notes">
+                    Practice with querying placement APIs will help you understand how OpenStack makes scheduling
+                    decisions.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Placement</h2>
+                <ul>
+                    <li>Improves scheduling efficiency</li>
+                    <li>Enables precise resource tracking</li>
+                    <li>Supports complex resource topologies</li>
+                </ul>
+                <aside class="notes">
+                    Placement brings visibility and granularity to OpenStack’s scheduling model.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/placement/latest/">Placement Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    Dive into these docs to explore Placement’s detailed usage and configuration.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+
+</html>

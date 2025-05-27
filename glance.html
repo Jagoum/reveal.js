@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Glance - OpenStack Image Service</title>
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/white.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>Glance: OpenStack Image Service</h2>
+                <p>Introduction and Overview</p>
+                <aside class="notes">
+                    Glance is a service that provides discovery, registration, and delivery services for disk and server
+                    images. It’s central to managing VM images in OpenStack.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Why Glance?</h3>
+                <ul>
+                    <li>Before Glance, image management was inconsistent and manual.</li>
+                    <li>No centralized image repository in early cloud platforms.</li>
+                    <li>Glance enables reusability, standardization, and automation of VM images.</li>
+                </ul>
+                <aside class="notes">
+                    It solved the need for a centralized and standard way to manage images for deployment and scaling.
+                </aside>
+            </section>
+
+            <section>
+                <h3>What is Glance?</h3>
+                <p>Glance is the image service of OpenStack responsible for storing and retrieving virtual machine disk
+                    images.</p>
+                <ul>
+                    <li>Supports multiple storage backends.</li>
+                    <li>Can store image metadata in a catalog.</li>
+                </ul>
+                <aside class="notes">
+                    It's not just for storing images, but also provides metadata and API access for users and services.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Glance Architecture</h3>
+                <img src="https://docs.openstack.org/glance/latest/_images/glance-image-service.png"
+                    alt="Glance Architecture" style="width:80%">
+                <ul>
+                    <li>Glance API: User interface for image operations</li>
+                    <li>Registry (optional in newer versions): Stores metadata</li>
+                    <li>Image store: Actual binary images stored</li>
+                    <li>Database: Metadata storage</li>
+                </ul>
+                <aside class="notes">
+                    The API handles requests, while the backend can use Swift, filesystem, or other storage types.
+                </aside>
+            </section>
+
+            <section>
+                <h3>How Glance Works</h3>
+                <ol>
+                    <li>User uploads image via API</li>
+                    <li>Image and metadata stored</li>
+                    <li>Nova queries Glance when launching an instance</li>
+                </ol>
+                <aside class="notes">
+                    Images are pulled by compute nodes when launching new VMs.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Integration with Other Components</h3>
+                <ul>
+                    <li><strong>Nova:</strong> Uses Glance to retrieve images</li>
+                    <li><strong>Horizon:</strong> GUI for image upload and management</li>
+                    <li><strong>Swift:</strong> Can be used as image backend</li>
+                </ul>
+                <aside class="notes">
+                    Glance is tightly integrated with the compute service and dashboard for a seamless experience.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Installing Glance</h3>
+                <pre><code>
+sudo apt install glance
+        </code></pre>
+                <ul>
+                    <li>Edit /etc/glance/glance-api.conf</li>
+                    <li>Sync DB: <code>su -s /bin/sh -c "glance-manage db_sync" glance</code></li>
+                    <li>Restart service</li>
+                </ul>
+                <aside class="notes">
+                    Installation assumes Keystone and database are already configured.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Automating with Ansible</h3>
+                <pre><code>- hosts: glance
+  tasks:
+    - name: Install Glance
+      apt:
+        name: glance
+        state: present
+
+    - name: Configure glance-api.conf
+      template:
+        src: glance-api.conf.j2
+        dest: /etc/glance/glance-api.conf
+
+    - name: DB Sync
+      command: glance-manage db_sync
+        </code></pre>
+                <aside class="notes">
+                    Use Ansible roles and templates for scalable configuration across multiple environments.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Managing Glance</h3>
+                <pre><code>
+glance image-create --name "Ubuntu 20.04" --disk-format qcow2 --container-format bare --file ubuntu.qcow2 --visibility public
+        </code></pre>
+                <ul>
+                    <li>Practice: Upload and list an image</li>
+                    <li>Try to launch a VM using that image</li>
+                </ul>
+                <aside class="notes">
+                    CLI practice is essential to mastering image management.
+                </aside>
+            </section>
+
+            <section>
+                <h3>Importance of Glance</h3>
+                <ul>
+                    <li>Centralized image repository</li>
+                    <li>Improves image lifecycle management</li>
+                    <li>Enhances automation and DevOps workflows</li>
+                </ul>
+                <aside class="notes">
+                    Glance is critical for consistent and efficient provisioning of virtual machines.
+                </aside>
+            </section>
+
+            <section>
+                <h3>References</h3>
+                <ul>
+                    <li><a href="https://docs.openstack.org/glance/latest/">OpenStack Glance Documentation</a></li>
+                    <li><a href="https://docs.ansible.com/">Ansible Documentation</a></li>
+                </ul>
+                <aside class="notes">
+                    Always consult the latest documentation for changes or enhancements.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            slideNumber: 'c/t', // Shows current slide number / total slides
+            hash: true // Enable slide navigation via URL hash
+        });
+    </script>
+</body>
+
+</html>

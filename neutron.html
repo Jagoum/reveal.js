@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Neutron - OpenStack Networking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Neutron</h2>
+                <p>Networking-as-a-Service (NaaS)</p>
+                <aside class="notes">
+                    Welcome! Today we’re diving into Neutron, the networking service in OpenStack that provides
+                    connectivity and IP management.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Why Neutron?</h2>
+                <ul>
+                    <li>Before Neutron, networking in OpenStack was limited and static.</li>
+                    <li>Neutron enables dynamic, programmable, and multi-tenant networks.</li>
+                </ul>
+                <aside class="notes">
+                    Neutron was introduced to make networking more flexible and support complex architectures with
+                    isolation.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Neutron provides "networking-as-a-service" to other OpenStack services and end users.</p>
+                <aside class="notes">
+                    It abstracts and manages networks, IPs, routers, and security groups.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <img src="https://docs.openstack.org/neutron/latest/_images/neutron-arch.png" alt="Neutron Architecture"
+                    style="width: 70%;">
+                <ul>
+                    <li><strong>Neutron Server:</strong> Accepts API calls</li>
+                    <li><strong>ML2 Plugin:</strong> Integrates with backend drivers</li>
+                    <li><strong>Agents:</strong> Operate on nodes (L3, DHCP, etc.)</li>
+                </ul>
+                <aside class="notes">
+                    Neutron’s modular architecture allows different backends like Open vSwitch or LinuxBridge.
+                </aside>
+            </section>
+
+            <section>
+                <h2>How Neutron Works</h2>
+                <ol>
+                    <li>User creates network/subnet/router</li>
+                    <li>Neutron assigns IPs and configures forwarding</li>
+                    <li>Agents enforce rules and connectivity</li>
+                </ol>
+                <aside class="notes">
+                    Neutron automates IP management and routing for instances.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Integration</h2>
+                <ul>
+                    <li><strong>Nova:</strong> Requires Neutron for VM networking</li>
+                    <li><strong>Horizon:</strong> GUI for managing Neutron resources</li>
+                </ul>
+                <aside class="notes">
+                    Neutron is deeply integrated into the instance lifecycle — no connectivity, no compute.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install neutron-server neutron-plugin-ml2 neutron-linuxbridge-agent neutron-dhcp-agent neutron-l3-agent</code></pre>
+                <aside class="notes">
+                    Installing Neutron includes setting up agents and plugins depending on the network backend.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Install Neutron
+  hosts: neutron
+  tasks:
+    - name: Install packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - neutron-server
+        - neutron-plugin-ml2
+        - neutron-linuxbridge-agent
+        - neutron-l3-agent
+        - neutron-dhcp-agent</code></pre>
+                <aside class="notes">
+                    Use Ansible roles for scalable Neutron deployment across network nodes.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Neutron</h2>
+                <pre><code>openstack network create demo-net
+openstack subnet create --network demo-net --subnet-range 10.0.0.0/24 demo-subnet
+openstack router create demo-router</code></pre>
+                <aside class="notes">
+                    These are core commands for building networks and routing instances.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Practice Session</h2>
+                <ul>
+                    <li>Create a network</li>
+                    <li>Assign subnet</li>
+                    <li>Connect router</li>
+                </ul>
+                <aside class="notes">
+                    Let's create a basic network topology using Neutron.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Neutron</h2>
+                <ul>
+                    <li>Provides scalable, programmable networking</li>
+                    <li>Enables isolation and multi-tenancy</li>
+                    <li>Supports SDN and plugins</li>
+                </ul>
+                <aside class="notes">
+                    Neutron is key to making OpenStack truly multi-tenant and dynamic.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/neutron/latest/">Neutron Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    These are essential references to understand and deploy Neutron.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+
+</html>

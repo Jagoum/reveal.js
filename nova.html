@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Nova - OpenStack Compute Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Nova</h2>
+                <p>Compute Service Overview</p>
+                <aside class="notes">
+                    Hello everyone. Let's dive into Nova — the core compute engine of OpenStack responsible for
+                    provisioning and managing virtual machines.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Why Nova?</h2>
+                <ul>
+                    <li>Before Nova, there was no unified method to provision VMs at scale in a cloud environment.</li>
+                    <li>Nova provides an API-driven orchestration engine to automate VM lifecycle.</li>
+                </ul>
+                <aside class="notes">
+                    Nova addressed the need for scalable, programmable VM provisioning and orchestration.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Nova is the OpenStack compute service that manages the lifecycle of virtual machines.</p>
+                <aside class="notes">
+                    Nova abstracts hypervisor management behind an API and works with KVM, Xen, VMware, etc.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <img src="https://docs.openstack.org/nova/latest/_images/nova-arch.png" alt="Nova Architecture"
+                    style="width: 70%;">
+                <ul>
+                    <li><strong>API:</strong> Receives VM requests</li>
+                    <li><strong>Scheduler:</strong> Chooses host</li>
+                    <li><strong>Compute:</strong> Talks to hypervisor</li>
+                    <li><strong>Conductor:</strong> DB access helper</li>
+                </ul>
+                <aside class="notes">
+                    Nova's architecture is modular and horizontally scalable.
+                </aside>
+            </section>
+
+            <section>
+                <h2>How Nova Works</h2>
+                <ol>
+                    <li>User sends API request</li>
+                    <li>Scheduler picks host</li>
+                    <li>Compute node launches VM via hypervisor</li>
+                </ol>
+                <aside class="notes">
+                    Nova orchestrates the entire lifecycle: boot, pause, migrate, snapshot, delete.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Integration</h2>
+                <ul>
+                    <li><strong>Glance:</strong> Retrieves images</li>
+                    <li><strong>Neutron:</strong> Provides networking</li>
+                    <li><strong>Cinder:</strong> Attaches volumes</li>
+                </ul>
+                <aside class="notes">
+                    Nova is at the center of the OpenStack architecture, calling other services as needed.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install nova-api nova-scheduler nova-conductor nova-compute</code></pre>
+                <aside class="notes">
+                    Configuration involves linking to Keystone, Glance, Neutron, and Cinder.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Install Nova
+  hosts: nova
+  tasks:
+    - name: Install components
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - nova-api
+        - nova-scheduler
+        - nova-conductor
+        - nova-compute</code></pre>
+                <aside class="notes">
+                    Use Ansible for consistent and scalable Nova deployment.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Nova</h2>
+                <pre><code>openstack server list
+openstack server create --image cirros --flavor m1.small --network demo-net vm1</code></pre>
+                <aside class="notes">
+                    These commands allow you to view and launch VMs via Nova.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Practice Session</h2>
+                <ul>
+                    <li>Boot a VM</li>
+                    <li>Assign floating IP</li>
+                    <li>Stop/start/delete VM</li>
+                </ul>
+                <aside class="notes">
+                    Practice helps reinforce your understanding of the Nova service.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Nova</h2>
+                <ul>
+                    <li>Central to compute in OpenStack</li>
+                    <li>Interacts with most services</li>
+                    <li>Scalable and robust</li>
+                </ul>
+                <aside class="notes">
+                    Nova is the engine that drives OpenStack’s ability to run compute workloads.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/nova/latest/">Nova Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    Use these links to learn more and find advanced examples.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Cinder - OpenStack Block Storage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Cinder</h2>
+                <p>Block Storage Service Overview</p>
+                <aside class="notes">
+                    Hello class! Let’s explore Cinder — OpenStack’s service for managing block storage volumes.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Why Cinder?</h2>
+                <ul>
+                    <li>Before Cinder, instances used ephemeral storage, lost after shutdown.</li>
+                    <li>Cinder provides persistent, attachable block storage volumes.</li>
+                </ul>
+                <aside class="notes">
+                    Cinder enables data persistence and mobility between instances — crucial for real workloads.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Cinder is the block storage component in OpenStack, offering volumes that can be attached to
+                    instances.</p>
+                <aside class="notes">
+                    Think of Cinder like cloud-based hard drives that your virtual machines can use.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <img src="https://docs.openstack.org/cinder/latest/_images/cinder-architecture.png"
+                    alt="Cinder Architecture" style="width: 70%;">
+                <ul>
+                    <li><strong>API:</strong> Accepts volume requests</li>
+                    <li><strong>Scheduler:</strong> Selects appropriate backend</li>
+                    <li><strong>Volume Service:</strong> Manages backend drivers</li>
+                </ul>
+                <aside class="notes">
+                    Cinder’s modular design allows support for various storage backends like LVM, NFS, Ceph.
+                </aside>
+            </section>
+
+            <section>
+                <h2>How Cinder Works</h2>
+                <ol>
+                    <li>User creates volume via API</li>
+                    <li>Scheduler selects backend</li>
+                    <li>Volume created and can be attached to instance</li>
+                </ol>
+                <aside class="notes">
+                    Volumes can be attached, detached, snapshotted, and resized independently of VMs.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Integration</h2>
+                <ul>
+                    <li><strong>Nova:</strong> Attaches volumes to instances</li>
+                    <li><strong>Horizon:</strong> GUI volume management</li>
+                </ul>
+                <aside class="notes">
+                    Cinder integrates with compute for attaching/detaching volumes and with dashboard for visual
+                    interaction.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install cinder-api cinder-scheduler cinder-volume</code></pre>
+                <p>Configure <code>/etc/cinder/cinder.conf</code></p>
+                <aside class="notes">
+                    Installation involves configuring the backend storage and integrating with Keystone, Glance, and
+                    Nova.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Install Cinder
+  hosts: cinder
+  tasks:
+    - name: Install packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - cinder-api
+        - cinder-scheduler
+        - cinder-volume</code></pre>
+                <aside class="notes">
+                    With Ansible, you can manage multiple Cinder services across nodes efficiently.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Cinder</h2>
+                <pre><code>openstack volume create --size 5 myvolume
+openstack volume list
+openstack server add volume vm1 myvolume</code></pre>
+                <aside class="notes">
+                    These commands are used to create, list, and attach volumes to virtual machines.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Practice Session</h2>
+                <ul>
+                    <li>Create a volume</li>
+                    <li>Attach to instance</li>
+                    <li>Detach and delete</li>
+                </ul>
+                <aside class="notes">
+                    Practice will help you understand volume lifecycle and Cinder-Nova interaction.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Cinder</h2>
+                <ul>
+                    <li>Persistent storage for VMs</li>
+                    <li>Supports snapshots and backups</li>
+                    <li>Backend agnostic (LVM, Ceph, etc.)</li>
+                </ul>
+                <aside class="notes">
+                    Cinder is vital for applications that need reliable and portable storage.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/cinder/latest/">Cinder Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    Use these to dig deeper into Cinder’s configuration and use cases.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+
+</html>

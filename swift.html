@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Swift - OpenStack Object Storage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Swift</h2>
+                <p>Object Storage Service Overview</p>
+                <aside class="notes">
+                    Welcome! Let's dive into Swift, OpenStack's distributed object storage system, essential for storing
+                    large amounts of unstructured data.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Why Swift?</h2>
+                <ul>
+                    <li>Traditional file systems don’t scale well for cloud-native applications.</li>
+                    <li>Object storage is designed for massive scale, redundancy, and unstructured data.</li>
+                    <li>Swift provides highly available, eventually consistent object storage.</li>
+                </ul>
+                <aside class="notes">
+                    Swift emerged to solve scalability and durability challenges of conventional storage in cloud
+                    environments.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Swift is an OpenStack service for storing and retrieving unstructured data objects via a RESTful API.
+                </p>
+                <aside class="notes">
+                    Swift is not a file system or block storage. It’s optimized for static data like backups, media
+                    files, and archives.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <img src="https://docs.openstack.org/swift/latest/_images/overview_arch.png" alt="Swift Architecture"
+                    style="width: 70%;">
+                <ul>
+                    <li><strong>Proxy Server:</strong> Handles requests and routes them</li>
+                    <li><strong>Account, Container, Object Servers:</strong> Store metadata and actual data</li>
+                    <li><strong>Ring:</strong> Maps data to physical locations</li>
+                </ul>
+                <aside class="notes">
+                    Swift's architecture ensures redundancy and high availability. Data is replicated and accessible
+                    even if a server fails.
+                </aside>
+            </section>
+
+            <section>
+                <h2>How Swift Works</h2>
+                <ol>
+                    <li>User uploads file via proxy.</li>
+                    <li>Proxy queries Ring for placement.</li>
+                    <li>File is stored on multiple object servers.</li>
+                </ol>
+                <aside class="notes">
+                    Swift ensures durability through replication and a distributed design.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Integration</h2>
+                <ul>
+                    <li><strong>Glance:</strong> Can store images in Swift</li>
+                    <li><strong>Backup tools:</strong> Use Swift for storage backend</li>
+                </ul>
+                <aside class="notes">
+                    Swift is versatile — many OpenStack services use it as a reliable backend.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install swift swift-proxy python3-swiftclient</code></pre>
+                <aside class="notes">
+                    Installation includes configuring rings and syncing nodes — setup is more involved than Glance.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Deploy Swift
+  hosts: swift
+  tasks:
+    - name: Install Swift
+      apt:
+        name: swift
+        state: present</code></pre>
+                <aside class="notes">
+                    You can automate configuration and ring building with custom Ansible roles.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Swift</h2>
+                <pre><code>swift list
+swift upload my-container file.txt
+swift download my-container file.txt</code></pre>
+                <aside class="notes">
+                    These commands allow you to interact with Swift containers and objects easily.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Practice Session</h2>
+                <ul>
+                    <li>Create container</li>
+                    <li>Upload/download file</li>
+                    <li>List objects</li>
+                </ul>
+                <aside class="notes">
+                    Let’s try real object operations using the Swift CLI.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Swift</h2>
+                <ul>
+                    <li>Scalable object storage</li>
+                    <li>High availability & redundancy</li>
+                    <li>Essential for backups and media files</li>
+                </ul>
+                <aside class="notes">
+                    Swift supports massive, redundant storage — vital for any cloud deployment.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/swift/latest/">Swift Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    Visit these sites to learn more and dive deeper into configuration options.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize();
+    </script>
+</body>
+
+</html>

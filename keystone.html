@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Keystone - OpenStack Identity Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h2>OpenStack Keystone</h2>
+                <p>Identity Service Overview</p>
+                <aside class="notes">
+                    Welcome everyone! Keystone is a core service for authentication and identity management in
+                    OpenStack.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Why Keystone?</h2>
+                <ul>
+                    <li>Before Keystone, OpenStack lacked a unified authentication system.</li>
+                    <li>Keystone centralizes identity, token, and role-based access.</li>
+                </ul>
+                <aside class="notes">
+                    Keystone makes OpenStack secure and manageable by consolidating identity and policy control.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Definition</h2>
+                <p>Keystone is OpenStack’s identity service, providing authentication, authorization, and service
+                    catalog.</p>
+                <aside class="notes">
+                    Keystone manages users, tenants (projects), and the services that make up your cloud.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Architecture</h2>
+                <img src="https://docs.openstack.org/keystone/latest/_images/keystone-architecture.png"
+                    alt="Keystone Architecture" style="width: 70%;">
+                <ul>
+                    <li><strong>Identity backend:</strong> Stores users/projects</li>
+                    <li><strong>Token provider:</strong> Issues tokens</li>
+                    <li><strong>Catalog:</strong> Lists available services</li>
+                </ul>
+                <aside class="notes">
+                    Keystone has a pluggable backend and issues tokens for secure inter-service communication.
+                </aside>
+            </section>
+
+            <section>
+                <h2>How Keystone Works</h2>
+                <ol>
+                    <li>User provides credentials</li>
+                    <li>Keystone verifies and returns a token</li>
+                    <li>Token is used to access other OpenStack services</li>
+                </ol>
+                <aside class="notes">
+                    Keystone enables secure access to cloud resources using scoped tokens.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Integration</h2>
+                <ul>
+                    <li><strong>Glance, Nova, Neutron:</strong> All use Keystone for auth</li>
+                    <li><strong>Horizon:</strong> Depends on Keystone to log users in</li>
+                </ul>
+                <aside class="notes">
+                    Keystone is essential for any OpenStack component to authenticate and authorize users.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <pre><code>sudo apt install keystone</code></pre>
+                <p>Configure <code>/etc/keystone/keystone.conf</code> and sync DB</p>
+                <aside class="notes">
+                    Keystone setup requires proper integration with the database and configuration of its public
+                    endpoint.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Automation with Ansible</h2>
+                <pre><code>- name: Install Keystone
+  hosts: keystone
+  tasks:
+    - name: Install keystone
+      apt:
+        name: keystone
+        state: present</code></pre>
+                <aside class="notes">
+                    Ansible simplifies deploying Keystone across multiple nodes with reusable playbooks.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Managing Keystone</h2>
+                <pre><code>openstack user list
+openstack project create demo
+openstack role add --project demo --user demo admin</code></pre>
+                <aside class="notes">
+                    These commands are commonly used to manage users, roles, and projects in Keystone.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Practice Session</h2>
+                <ul>
+                    <li>Create user and project</li>
+                    <li>Assign roles</li>
+                    <li>Authenticate and get a token</li>
+                </ul>
+                <aside class="notes">
+                    This practice will reinforce how Keystone controls access and identity.
+                </aside>
+            </section>
+
+            <section>
+                <h2>Importance of Keystone</h2>
+                <ul>
+                    <li>Unified identity and access control</li>
+                    <li>Integrates all OpenStack services</li>
+                    <li>Enables multi-tenancy and RBAC</li>
+                </ul>
+                <aside class="notes">
+                    Keystone is vital for secure and organized multi-user cloud environments.
+                </aside>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://docs.openstack.org/keystone/latest/">Keystone Documentation</a></li>
+                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                </ul>
+                <aside class="notes">
+                    These references are great for in-depth learning and deployment guidance.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            slideNumber: 'c/t', // Shows current slide number / total slides
+            hash: true // Enable slide navigation via URL hash
+        });
+    </script>
+</body>
+
+</html>
