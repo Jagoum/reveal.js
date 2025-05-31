@@ -99,7 +99,7 @@
 			<!-- Core Concepts -->
 			<section>
 				<section>
-					<h2>Key Developer Concepts</h2>
+					<h2>Key Concepts</h2>
 					<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px;">
 						<div class="fragment component-card">
 							<h4>Nova</h4>
@@ -203,7 +203,7 @@ server = conn.compute.create_server(
 
 			<!-- Developer Workflow -->
 			<section>
-				<h2>Typical Developer Workflow</h2>
+				<h2>Typical Workflow</h2>
 				<ol>
 					<li class="fragment">Authenticate with Keystone</li>
 					<li class="fragment">Create resources via CLI/SDK</li>
@@ -279,6 +279,19 @@ openstack server add volume db-server db-volume</code></pre>
         apt-get install -y nginx</code></pre>
 				</div>
 			</section>
+			<section>
+				<section>
+					<h2 class="fragment fade-up">Multi-Node Set Up Structure</h2>
+				</section>
+				<section>
+					<img src="./Screenshot from 2025-05-28 15-48-55.png" alt="Multi-Node Setup"
+						class="fragment fade-up">
+				</section>
+				<section>
+					<img src="./Screenshot from 2025-05-28 15-48-21.png" alt="Multi-Node Setup"
+						class="fragment fade-up">
+				</section>
+			</section>
 
 			<!-- Closing -->
 			<section data-background="linear-gradient(135deg, #0066CC, #003366)">
@@ -327,7 +340,7 @@ openstack server add volume db-server db-volume</code></pre>
 		});
 
 		// Theme switcher logic
-		document.getElementById('theme-switcher').addEventListener('change', function(e) {
+		document.getElementById('theme-switcher').addEventListener('change', function (e) {
 			var theme = e.target.value;
 			var themeLink = document.querySelector('link[rel="stylesheet"][href*="theme/"]');
 			if (themeLink) {

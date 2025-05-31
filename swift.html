@@ -1,11 +1,18 @@
 <!doctype html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <title>Swift - OpenStack Object Storage</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
+<section>
+    <h2 class="fragment fade-in">Why Swift?</h2>
+    <ul>
+        <li class="fragment fade-right">Traditional file systems don't scale well for cloud-native applications.</li>
+        <li class="fragment fade-right">Object storage is designed for massive scale, redundancy, and unstructured data.
+        </li>
+        <li class="fragment fade-right">Swift provides highly available, eventually consistent object storage.</li>
+    </ul>
+</section>
+<meta charset="utf-8">
+<title>Swift - OpenStack Object Storage</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/black.min.css">
 </head>
 
 <body>
@@ -13,13 +20,13 @@
         <div class="slides">
 
             <section>
-                <h2>OpenStack Swift</h2>
-                <p>Object Storage Service Overview</p>
-                <aside class="notes">
-                    Welcome! Let's dive into Swift, OpenStack's distributed object storage system, essential for storing
-                    large amounts of unstructured data.
-                </aside>
+                <h2 class="fragment fade-in">OpenStack Swift</h2>
+                <p class="fragment fade-up">Object Storage Service Overview</p>
             </section>
+            <aside class="notes">
+                Welcome! Let's dive into Swift, OpenStack's distributed object storage system, essential for storing
+                large amounts of unstructured data.
+            </aside>
 
             <section>
                 <h2>Why Swift?</h2>
@@ -28,43 +35,49 @@
                     <li>Object storage is designed for massive scale, redundancy, and unstructured data.</li>
                     <li>Swift provides highly available, eventually consistent object storage.</li>
                 </ul>
-                <aside class="notes">
-                    Swift emerged to solve scalability and durability challenges of conventional storage in cloud
-                    environments.
-                </aside>
             </section>
+            <aside class="notes">
+                Swift emerged to solve scalability and durability challenges of conventional storage in cloud
+                environments.
+            </aside>
 
             <section>
                 <h2>Definition</h2>
                 <p>Swift is an OpenStack service for storing and retrieving unstructured data objects via a RESTful API.
                 </p>
-                <aside class="notes">
-                    Swift is not a file system or block storage. It’s optimized for static data like backups, media
-                    files, and archives.
-                </aside>
             </section>
+            <aside class="notes">
+                Swift is not a file system or block storage. It’s optimized for static data like backups, media
+                files, and archives.
+            </aside>
 
             <section>
-                <h2>Architecture</h2>
-                <img src="https://docs.openstack.org/swift/latest/_images/overview_arch.png" alt="Swift Architecture"
-                    style="width: 70%;">
-                <ul>
-                    <li><strong>Proxy Server:</strong> Handles requests and routes them</li>
-                    <li><strong>Account, Container, Object Servers:</strong> Store metadata and actual data</li>
-                    <li><strong>Ring:</strong> Maps data to physical locations</li>
-                </ul>
-                <aside class="notes">
-                    Swift's architecture ensures redundancy and high availability. Data is replicated and accessible
-                    even if a server fails.
-                </aside>
+                <section>
+                    <h2 class="fragment fade-in">Architecture</h2>
+                    <img class="fragment fade-in" src="./Screenshot from 2025-05-28 15-45-18.png"
+                        alt="Swift Architecture" style="width: 50%;">
+                </section>
+                <section>
+                    <ul>
+                        <li class="fragment fade-up"><strong>Proxy Server:</strong> Handles requests and routes them
+                        </li>
+                        <li class="fragment fade-up"><strong>Account, Container, Object Servers:</strong> Store metadata
+                            and actual data</li>
+                        <li class="fragment fade-up"><strong>Ring:</strong> Maps data to physical locations</li>
+                    </ul>
+                </section>
             </section>
+            <aside class="notes">
+                Swift's architecture ensures redundancy and high availability. Data is replicated and accessible
+                even if a server fails.
+            </aside>
 
             <section>
-                <h2>How Swift Works</h2>
+                <h2 class="fragment fade-in">How Swift Works</h2>
                 <ol>
-                    <li>User uploads file via proxy.</li>
-                    <li>Proxy queries Ring for placement.</li>
-                    <li>File is stored on multiple object servers.</li>
+                    <li class="fragment fade-left">User uploads file via proxy.</li>
+                    <li class="fragment fade-left">Proxy queries Ring for placement.</li>
+                    <li class="fragment fade-left">File is stored on multiple object servers.</li>
                 </ol>
                 <aside class="notes">
                     Swift ensures durability through replication and a distributed design.
@@ -72,10 +85,10 @@
             </section>
 
             <section>
-                <h2>Integration</h2>
+                <h2 class="fragment fade-in">Integration</h2>
                 <ul>
-                    <li><strong>Glance:</strong> Can store images in Swift</li>
-                    <li><strong>Backup tools:</strong> Use Swift for storage backend</li>
+                    <li class="fragment fade-right"><strong>Glance:</strong> Can store images in Swift</li>
+                    <li class="fragment fade-right"><strong>Backup tools:</strong> Use Swift for storage backend</li>
                 </ul>
                 <aside class="notes">
                     Swift is versatile — many OpenStack services use it as a reliable backend.
@@ -83,8 +96,8 @@
             </section>
 
             <section>
-                <h2>Installation</h2>
-                <pre><code>sudo apt install swift swift-proxy python3-swiftclient</code></pre>
+                <h2 class="fragment fade-in">Installation</h2>
+                <pre><code class="fragment fade-up">sudo apt install swift swift-proxy python3-swiftclient</code></pre>
                 <aside class="notes">
                     Installation includes configuring rings and syncing nodes — setup is more involved than Glance.
                 </aside>
@@ -105,8 +118,8 @@
             </section>
 
             <section>
-                <h2>Managing Swift</h2>
-                <pre><code>swift list
+                <h2 class="fragment fade-in">Managing Swift</h2>
+                <pre><code class="fragment fade-up">swift list
 swift upload my-container file.txt
 swift download my-container file.txt</code></pre>
                 <aside class="notes">
@@ -115,11 +128,11 @@ swift download my-container file.txt</code></pre>
             </section>
 
             <section>
-                <h2>Practice Session</h2>
+                <h2 class="fragment fade-in">Practice Session</h2>
                 <ul>
-                    <li>Create container</li>
-                    <li>Upload/download file</li>
-                    <li>List objects</li>
+                    <li class="fragment fade-up">Create container</li>
+                    <li class="fragment fade-up">Upload/download file</li>
+                    <li class="fragment fade-up">List objects</li>
                 </ul>
                 <aside class="notes">
                     Let’s try real object operations using the Swift CLI.
@@ -127,11 +140,11 @@ swift download my-container file.txt</code></pre>
             </section>
 
             <section>
-                <h2>Importance of Swift</h2>
+                <h2 class="fragment fade-in">Importance of Swift</h2>
                 <ul>
-                    <li>Scalable object storage</li>
-                    <li>High availability & redundancy</li>
-                    <li>Essential for backups and media files</li>
+                    <li class="fragment fade-left">Scalable object storage</li>
+                    <li class="fragment fade-left">High availability & redundancy</li>
+                    <li class="fragment fade-left">Essential for backups and media files</li>
                 </ul>
                 <aside class="notes">
                     Swift supports massive, redundant storage — vital for any cloud deployment.
@@ -139,10 +152,12 @@ swift download my-container file.txt</code></pre>
             </section>
 
             <section>
-                <h2>References</h2>
+                <h2 class="fragment fade-in">References</h2>
                 <ul>
-                    <li><a href="https://docs.openstack.org/swift/latest/">Swift Documentation</a></li>
-                    <li><a href="https://docs.openstack.org/ansible/latest/">OpenStack Ansible</a></li>
+                    <li class="fragment fade-up"><a href="https://docs.openstack.org/swift/latest/">Swift
+                            Documentation</a></li>
+                    <li class="fragment fade-up"><a href="https://docs.openstack.org/ansible/latest/">OpenStack
+                            Ansible</a></li>
                 </ul>
                 <aside class="notes">
                     Visit these sites to learn more and dive deeper into configuration options.
@@ -152,8 +167,19 @@ swift download my-container file.txt</code></pre>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/plugin/notes/notes.min.js"></script>
     <script>
-        Reveal.initialize();
+        Reveal.initialize({
+            slideNumber: 'c/t', // Shows current slide number / total slides
+            hash: true, // Enable slide navigation via URL hash
+            plugins: [RevealNotes],
+            // Enable smooth transitions
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            // Enable slide animations
+            transitionSpeed: 'default', // default/fast/slow
+            // More natural easing for reveals
+            backgroundTransition: 'fade'
+        });
     </script>
 </body>
 
